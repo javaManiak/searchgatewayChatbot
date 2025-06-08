@@ -1,0 +1,47 @@
+.popover-content {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    flex:1;
+}
+
+.popover-body {
+    height: 100%;
+    display:flex;
+    flex-direction: column;
+}
+
+.popover {
+    padding: 0;
+    border: 0;
+    background-color: #fff;
+    box-shadow: 0 0 10px 0 black;
+    border-radius: 10px;
+    width: 300px;
+    max-width: 300px;
+    height:500px;
+    max-height: 500px;
+    overflow-y: auto;
+}
+
+.popover .arrow {
+    display: none;
+}
+
+#btn-chatbot {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 1000;
+}
+
+#answerBox {
+    flex:1;
+    border-radius: 10px;
+    /*box-shadow: 1px 1px 10px black inset;*/
+    margin:5px;
+    padding:10px;
+    border: 1px solid #ccc;
+    overflow-y: auto;
+    max-height: 300px;
+}

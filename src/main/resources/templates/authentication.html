@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+<title>Authentication</title>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+<script>
+  $(document).ready(function(){
+    const token = localStorage.getItem("token");
+    // if token is present redirect to home page
+    if(token){
+      window.location.href = "/home";
+    }
+
+    $("#switch").click(function(e) {
+      e.preventDefault();
+      let text = $(this).text();
+      if(text == "SignUp"){
+        $(this).text("SignIn")
+        $("#display").text("SignUp")
+      }else {
+        $(this).text("SignUp")
+        $("#display").text("SignIn")
+      }
+
+    });
+
+    $("input[type='button']").click(function(){
+      let username = $("input[name='username']").val();
+      let password = $("input[name='password']").val();
+      let display = $("#display").text();
+      let url = display == "SignIn" ? "/auth/authenticate" : "/auth/register";
+
+      $.ajax({
+        url: url,
+        type: "POST",
+        data: JSON.stringify({username: username, password: password}),
+        contentType: "application/json",
+        success: function(data){
+          if (typeof data === 'string'){
+            alert(data);
+          }else {
+            console.log(data);
+            console.log(data.token);
+            console.log(data.password);
+            console.log(username, password);
+
+            localStorage.setItem("token", data.token);
+            window.location.href = "/home";
+          }
+        },
+        error: function(err){
+          console.log(err);
+        }
+
+      });
+    });
+  });
+
+</script>
+<head>
+  <meta charset="UTF-8" />
+  <title>Authentication page</title>
+</head>
+<body style="height: 100vh" class="w-100">
+<div class="mt-5 d-flex justify-content-center">
+  <form>
+    <h1 id="display">SignIn</h1>
+    <div class="form-group">
+      <label> Please Enter Username: </label>
+      <input class="form-control" type="text" name="username" />
+    </div>
+    <div class="form-group">
+      <label> Please Enter Password: </label>
+      <input class="form-control" type="password" name="password" />
+    </div>
+    <div>
+          <span class="text-muted">Click here
+           Here!</span> <a href='/' id='switch'>SignUp</a>
+    </div>
+    <input class="btn btn-primary mt-5" type="button" value="Submit" />
+  </form>
+</div>
+</body>
+</html>
